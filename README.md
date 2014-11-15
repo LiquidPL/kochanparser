@@ -24,7 +24,8 @@ for (int i = 0; i < 5; i++)
 		if (lesson.getGroup () >= 1) System.out.println ("Group: " + lesson.getGroup ());
 		System.out.println ("Subject: " + lesson.getName ());
 		System.out.println ("Teacher: " + lesson.getTeacherCode ());
-		System.out.println ("Classroom: " + lesson.getClassroom () + "\n");
+		System.out.println ("Classroom: " + lesson.getClassroom ());
+		System.out.println ("Class: " + lesson._getClass () + "\n");
 	}
 }
 ```
