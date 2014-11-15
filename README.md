@@ -21,7 +21,7 @@ for (int i = 0; i < 5; i++)
 	for (int j = 0; j < day.getSize (); j++)
 	{
 		Lesson lesson = day.getLesson (j);
-		if (lesson.getGroup () >= 1) System.out.println ("Grupa: " + lesson.getGroup ());
+		if (lesson.getGroup () >= 1) System.out.println ("Group: " + lesson.getGroup ());
 		System.out.println ("Subject: " + lesson.getName ());
 		System.out.println ("Teacher: " + lesson.getTeacherCode ());
 		System.out.println ("Classroom: " + lesson.getClassroom () + "\n");
