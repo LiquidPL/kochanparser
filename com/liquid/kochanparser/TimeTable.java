@@ -3,30 +3,19 @@ package com.liquid.kochanparser;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liquid.kochanparser.Lesson;
 import com.liquid.kochanparser.SaxHandler;
 import com.liquid.kochanparser.Day;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class TimeTable 
 {
-	private String xml;
 	private List <Day> days = new ArrayList <Day> ();
-	
-	public TimeTable () 
-	{
-		this.xml = "";
-	}
 		
 	public void parse (String xml)
-	{
-		this.xml = xml;
-		
+	{		
 		try
 		{
 			SAXParserFactory factory = SAXParserFactory.newInstance ();
