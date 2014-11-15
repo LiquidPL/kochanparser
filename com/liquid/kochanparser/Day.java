@@ -25,6 +25,11 @@ public class Day
 		lessons.add (new Lesson ());
 	}
 	
+	public void addLesson (String name, String code, String room, String _class)
+	{
+	    lessons.add (new Lesson (name, code, room, _class));
+	}
+	
 	public Lesson getLesson (int number)
 	{
 		return lessons.get (number);

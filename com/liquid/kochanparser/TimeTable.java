@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.liquid.kochanparser.SaxHandler;
 import com.liquid.kochanparser.Day;
+import com.liquid.kochanparser.TimeTableType;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -13,7 +14,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TimeTable 
 {
 	private List <Day> days = new ArrayList <Day> ();
-		
+	private TimeTableType type;
+	
 	public void parse (String xml)
 	{		
 		try
@@ -49,17 +51,14 @@ public class TimeTable
 	{
 		this.days.add (new Day (name));
 	}
-	
-	/*public void print ()
-	{
-		for (int i = 0; i < 10; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				System.out.println ("Nazwa: " + tab[i][j].getName());
-				System.out.println ("Nauczyciel: " + tab[i][j].getTeacherCode());
-				System.out.println ("Sala: " + tab[i][j].getClassroom());
-			}
-		}
-	}*/
+
+    public TimeTableType getType()
+    {
+        return type;
+    }
+
+    public void setType(TimeTableType type)
+    {
+        this.type = type;
+    }
 }

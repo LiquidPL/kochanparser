@@ -5,11 +5,19 @@ public class Lesson
 	private String name = "";
 	private String teacherCode = "";
 	private String classroom = "";
+	private String _class = "";
+	
 	private int index = -1;
 	private int group = 0;
 	
-	public Lesson () 
+	public Lesson () {}
+	
+	public Lesson (String name, String code, String room, String _class) 
 	{
+	    this.name = name;
+	    this.teacherCode = code;
+	    this.classroom = room;
+	    this._class = _class;
 	}
 
 	public String getName() 
@@ -60,5 +68,15 @@ public class Lesson
 	public void setIndex (int index) 
 	{
 		this.index = index;
+	}
+
+	public String _getClass() 
+	{
+		return _class;
+	}
+
+	public void setClass(String _class) 
+	{
+		this._class = _class;
 	}
 }

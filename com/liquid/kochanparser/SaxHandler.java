@@ -10,8 +10,17 @@ public class SaxHandler extends DefaultHandler
 	private int trc = -1; // counts the <tr> tags that appears in html, for the purpose of throwing things into apriopriate places
 	private int tdc = -1; // counts the <td> tags that appear between the <tr> tags. resets on any <tr> encounter
 	
-	private String currentName;
+	private String currentqName;
 	private Attributes currentAttr;
+	
+	@SuppressWarnings ("unused")
+    private String currentName = "";
+    @SuppressWarnings ("unused")
+    private String currentCode = "";
+    @SuppressWarnings ("unused")
+    private String currentRoom = "";
+    @SuppressWarnings ("unused")
+    private String currentClass = "";
 	
 	public void startDocument () throws SAXException
 	{
@@ -25,7 +34,7 @@ public class SaxHandler extends DefaultHandler
 	
 	public void startElement (String uri, String localName, String qName, Attributes attributes) throws SAXException
 	{
-		currentName = qName;
+		currentqName = qName;
 		currentAttr = attributes;
 		//System.out.println (qName + " " + trc + " " + tdc);
 		if ("tr".equals (qName))
@@ -41,7 +50,12 @@ public class SaxHandler extends DefaultHandler
 	
 	public void endElement (String uri, String localName, String qName) throws SAXException
 	{
-		
+		if ("td".equals (qName) && tdc >= 2 && this.checkIfEmpty (currentName, currentCode, currentRoom, currentClass) == false)
+		{
+		    this.owner.getDay (tdc - 2).addLesson (currentName, currentCode, currentRoom, currentClass);
+		    if (owner.getDay (tdc - 2).getSize () > 1 && owner.getDay (tdc - 2).getPreviousLesson ().getGroup () == 1) this.owner.getDay (tdc - 2).getCurrentLesson ().setGroup (2);
+		    currentName = ""; currentCode = ""; currentRoom = ""; currentClass = "";
+		}
 	}
 	
 	public void characters (char ch[], int start, int length) throws SAXException
@@ -51,21 +65,63 @@ public class SaxHandler extends DefaultHandler
 		
 		//System.out.println (currentName + " " + value + " " + trc + " " + tdc);
 		
-		if ("th".equals (currentName) && tdc >= 2)
+		if ("th".equals (currentqName) && tdc >= 2)
 		{
 			owner.addDay (value);
 		}
-		if (("span".equals (currentName) || "a".equals (currentName)) && trc > 2 && trc <= 11)
+		if (("span".equals (currentqName) || "a".equals (currentqName)) && trc > 2 && trc <= 11)
 		{
 			this.parseAttributes (currentAttr, value);
 		}
 	}
 	
-	public void ignorableWhiteSpace (char ch[], int start, int lenght) throws SAXException
+	public void ignorableWhiteSpace (char ch[], int start, int length) throws SAXException
 	{
 		
 	}
 	
+	private void parseAttributes (Attributes attributes, String value) throws SAXException
+    {
+        int count = attributes.getLength ();
+        for (int i = 0; i < count; i++)
+        {
+            String attrValue = attributes.getValue (i);
+        
+            if ("p".equals (attrValue))
+            {
+                if (currentName != "") this.handleGroups ();
+                this.currentName = value;
+            }
+            
+            if ("n".equals (attrValue))
+            {
+                this.currentCode = value;
+            }
+            if ("s".equals (attrValue))
+            {
+                this.currentRoom = value;
+            }
+            if ("o".equals (attrValue))
+            {
+                this.currentClass = value;
+            }
+        }
+    }
+    
+    private void handleGroups ()
+    {
+        this.owner.getDay (tdc - 2).addLesson (currentName, currentCode, currentRoom, currentClass);
+        this.owner.getDay (tdc - 2).getCurrentLesson ().setGroup (1);
+    }
+    
+    private Boolean checkIfEmpty (String name, String code, String room, String _class)
+    {
+        if (name.length () != 0 && code.length () != 0 && room.length () != 0) return false;
+        else if (_class.length () != 0 && name.length () != 0 && room.length () != 0) return false;
+        else if (code.length () != 0 && _class.length () != 0 && name.length () != 0) return false;
+        else return true;
+    }
+    
 	public SaxHandler (TimeTable owner)
 	{
 		this.setOwner(owner);
@@ -79,37 +135,6 @@ public class SaxHandler extends DefaultHandler
 	public void setOwner(TimeTable owner) 
 	{
 		this.owner = owner;
-	}
-	
-	private void parseAttributes (Attributes attributes, String value) throws SAXException
-	{
-		int count = attributes.getLength ();
-		for (int i = 0; i < count; i++)
-		{
-			String attrValue = attributes.getValue (i);
-		
-			if ("p".equals (attrValue))
-			{
-				this.owner.getDay (tdc - 2).addLesson ();
-				this.owner.getDay (tdc - 2).getCurrentLesson ().setIndex (trc - 3);
-				this.owner.getDay (tdc - 2).getCurrentLesson ().setName (value);
-				
-				if (this.owner.getDay (tdc - 2).getSize () > 1 && this.owner.getDay (tdc - 2).getCurrentLesson ().getIndex () == this.owner.getDay (tdc - 2).getPreviousLesson ().getIndex ())
-				{
-					this.owner.getDay (tdc - 2).getCurrentLesson ().setGroup (2);
-					this.owner.getDay (tdc - 2).getPreviousLesson ().setGroup (1); 
-				}
-			}
-			
-			if ("n".equals (attrValue))
-			{
-				this.owner.getDay (tdc - 2).getCurrentLesson ().setTeacherCode (value);
-			}
-			if ("s".equals (attrValue))
-			{
-				this.owner.getDay (tdc - 2).getCurrentLesson ().setClassroom (value);
-			}
-		}
 	}
 }
 
