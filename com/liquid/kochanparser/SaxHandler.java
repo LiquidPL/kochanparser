@@ -13,13 +13,9 @@ public class SaxHandler extends DefaultHandler
 	private String currentqName;
 	private Attributes currentAttr;
 	
-	@SuppressWarnings ("unused")
     private String currentName = "";
-    @SuppressWarnings ("unused")
     private String currentCode = "";
-    @SuppressWarnings ("unused")
     private String currentRoom = "";
-    @SuppressWarnings ("unused")
     private String currentClass = "";
 	
 	public void startDocument () throws SAXException
