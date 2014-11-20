@@ -1,5 +1,6 @@
 package com.liquid.kochanparser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class TimeTable
 	private List <Day> days = new ArrayList <Day> ();
 	private TimeTableType type;
 	
-	public void parse (String xml)
+	public void parse (File xml)
 	{		
 		try
 		{
