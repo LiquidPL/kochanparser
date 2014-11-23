@@ -1,6 +1,7 @@
 package com.liquid.kochanparser;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -11,7 +12,7 @@ public class SaxHandler extends DefaultHandler
 	private int tdc = -1; // counts the <td> tags that appear between the <tr> tags. resets on any <tr> encounter
 	
 	private String currentqName;
-	private Attributes currentAttr;
+	private AttributesImpl currentAttr;
 	
     private String currentName = "";
     private String currentCode = "";
@@ -31,7 +32,7 @@ public class SaxHandler extends DefaultHandler
 	public void startElement (String uri, String localName, String qName, Attributes attributes) throws SAXException
 	{
 		currentqName = qName;
-		currentAttr = attributes;
+		currentAttr = new AttributesImpl (attributes);
 		//System.out.println (qName + " " + trc + " " + tdc);
 		if ("tr".equals (qName))
 		{
@@ -76,7 +77,7 @@ public class SaxHandler extends DefaultHandler
 		
 	}
 	
-	private void parseAttributes (Attributes attributes, String value) throws SAXException
+	private void parseAttributes (AttributesImpl attributes, String value) throws SAXException
     {
         int count = attributes.getLength ();
         for (int i = 0; i < count; i++)
