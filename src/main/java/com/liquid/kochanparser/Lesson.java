@@ -1,5 +1,8 @@
 package com.liquid.kochanparser;
 
+/**
+ * A class for storing a single lesson.
+ */
 public class Lesson 
 {
 	private String name = "";

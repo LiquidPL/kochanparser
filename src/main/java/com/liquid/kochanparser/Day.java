@@ -5,6 +5,12 @@ import java.util.ArrayList;
 
 import com.liquid.kochanparser.Lesson;
 
+/**
+ * A class for storing a single day in the timetable
+ *
+ * @author Krzysztof Gutkowski (LiquidPL)
+ * @version dev
+ */
 public class Day 
 {
 	private String name;

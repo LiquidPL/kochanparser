@@ -12,6 +12,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * A singleton for the entire timetable parsed
+ * @author Krzysztof Gutkowski (LiquidPL)
+ * @version dev
+ */
 public class TimeTable 
 {
 	private List <Day> days = new ArrayList <Day> ();
