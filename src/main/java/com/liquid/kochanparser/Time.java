@@ -78,4 +78,15 @@ public class Time
     {
         this.minute = minute;
     }
+
+    /**
+     * Returns the hour in String (hh:mm) format
+     * @return Hour in hh:mm format.
+     */
+    public String toString ()
+    {
+        String ret = hour + ":" + minute;
+        if (minute == 0) ret += "0";
+        return ret;
+    }
 }

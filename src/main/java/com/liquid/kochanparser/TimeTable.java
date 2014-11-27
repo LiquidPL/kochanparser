@@ -20,6 +20,10 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TimeTable 
 {
 	private List <Day> days = new ArrayList <Day> ();
+
+    private List <Time> starthours = new ArrayList <Time> ();
+    private List <Time> endhours = new ArrayList <Time> ();
+
     private TimeTableType type;
 	
 	public void parse (File xml)
@@ -66,5 +70,15 @@ public class TimeTable
     public void setType(TimeTableType type)
     {
         this.type = type;
+    }
+
+    public List<Time> getStarthours ()
+    {
+        return starthours;
+    }
+
+    public List<Time> getEndhours ()
+    {
+        return endhours;
     }
 }

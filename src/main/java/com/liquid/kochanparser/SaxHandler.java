@@ -114,6 +114,12 @@ public class SaxHandler extends DefaultHandler
         {
             owner.addDay (value);
         }
+        if ("td".equals (currentName) && currentDay == -1)
+        {
+            String[] values = new String (value.toCharArray (), 3, value.length () - 3).split ("-");
+            owner.getStarthours ().add (new Time (values[0]));
+            owner.getEndhours ().add (new Time (values[1]));
+        }
         if ("span".equals (currentName) && "-------".equals (value))
             currentGroup = 2;
     }
