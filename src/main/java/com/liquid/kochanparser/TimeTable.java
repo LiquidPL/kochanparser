@@ -20,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class TimeTable 
 {
 	private List <Day> days = new ArrayList <Day> ();
-	private TimeTableType type;
+    private TimeTableType type;
 	
 	public void parse (File xml)
 	{		
