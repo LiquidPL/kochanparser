@@ -48,19 +48,27 @@ public class SaxHandler extends DefaultHandler
         }
         if ("td".equals (qName) || "th".equals (qName)) currentDay++;
         if ("span".equals (qName) && currentGroup == -1)
+        {
             currentGroup = 1;
+        }
         else if ("span".equals (qName) && currentGroup == 1)
+        {
             currentGroup = 2;
+        }
         if ("span".equals (qName) || "a".equals (qName))
         {
             int length = attributes.getLength ();
             for (int i = 0; i < length; i++)
             {
                 String value = attributes.getValue (i);
-                if ("p".equals (value) || "n".equals (value) || "s".equals (value) || "o".equals (value))
+                if ("p".equals (value) || "n".equals (value) || "s".equals (value) || "o".equals (value) || "tytulnapis".equals (value))
+                {
                     currentAttribute = value;
+                }
                 if ("font-size:85%".equals (value))
+                {
                     currentGroup = -1;
+                }
             }
         }
         if ("br".equals (qName) && currentGroup == 1 && currentDay >= 0 && currentDay <= 4 &&
@@ -80,7 +88,9 @@ public class SaxHandler extends DefaultHandler
         {
             owner.getDay (currentDay).addLesson (currentSubject, currentTeacher, currentClassroom, currentClass);
             if (currentGroup == 1 || currentGroup == 2)
+            {
                 owner.getDay (currentDay).getCurrentLesson ().setGroup (currentGroup);
+            }
             currentGroup = 0;
             currentSubject = ""; currentTeacher = ""; currentClassroom = ""; currentClass = "";
         }
@@ -91,9 +101,6 @@ public class SaxHandler extends DefaultHandler
     {
         String value = new String (ch, start, length).trim ();
         if (value.length () == 0) return;
-
-        //System.out.println (currentName + " " + currentAttribute + " "  + value + " " + currentLesson + " " + currentDay);
-
         if ("p".equals (currentAttribute))
         {
             currentSubject = value;
@@ -121,7 +128,15 @@ public class SaxHandler extends DefaultHandler
             owner.getEndhours ().add (new Time (values[1]));
         }
         if ("span".equals (currentName) && "-------".equals (value))
+        {
             currentGroup = 2;
+        }
+        if ("span".equals (currentName) && "tytulnapis".equals (currentAttribute))
+        {
+            String[] values = value.split (" \\(");
+            owner.setLongName (values[0]);
+            owner.setShortName (new String (values[1].toCharArray (), 0, values[1].length () - 1));
+        }
     }
 
     /**

@@ -10,64 +10,68 @@ import com.liquid.kochanparser.TimeTableType;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * A singleton for the entire timetable parsed
+ *
  * @author Krzysztof Gutkowski (LiquidPL)
  * @version dev
  */
-public class TimeTable 
+public class TimeTable
 {
-	private List <Day> days = new ArrayList <Day> ();
+    private String longName = "";
+    private String shortName = "";
 
-    private List <Time> starthours = new ArrayList <Time> ();
-    private List <Time> endhours = new ArrayList <Time> ();
+    private List<Day> days = new ArrayList<Day> ();
+
+    private List<Time> starthours = new ArrayList<Time> ();
+    private List<Time> endhours = new ArrayList<Time> ();
 
     private TimeTableType type;
-	
-	public void parse (File xml)
-	{		
-		try
-		{
-			SAXParserFactory factory = SAXParserFactory.newInstance ();
-			SAXParser parser = factory.newSAXParser ();
-			
-			DefaultHandler handler = new SaxHandler (this);
-			parser.parse(xml, handler);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace ();
-		}
-	}
 
-	public Day getDay (int number) 
-	{
-		return days.get (number);
-	}
+    public void parse (File xml)
+    {
+        try
+        {
+            SAXParserFactory factory = SAXParserFactory.newInstance ();
+            SAXParser parser = factory.newSAXParser ();
 
-	public int getDayCount ()
-	{
-		return days.size();
-	}
-	
-	public void addDay() 
-	{
-		this.days.add (new Day ());
-	}
-	
-	public void addDay (String name)
-	{
-		this.days.add (new Day (name));
-	}
+            DefaultHandler handler = new SaxHandler (this);
+            parser.parse (xml, handler);
+        } catch (Exception e)
+        {
+            e.printStackTrace ();
+        }
+    }
 
-    public TimeTableType getType()
+    public Day getDay (int number)
+    {
+        return days.get (number);
+    }
+
+    public int getDayCount ()
+    {
+        return days.size ();
+    }
+
+    public void addDay ()
+    {
+        this.days.add (new Day ());
+    }
+
+    public void addDay (String name)
+    {
+        this.days.add (new Day (name));
+    }
+
+    public TimeTableType getType ()
     {
         return type;
     }
 
-    public void setType(TimeTableType type)
+    public void setType (TimeTableType type)
     {
         this.type = type;
     }
@@ -80,5 +84,25 @@ public class TimeTable
     public List<Time> getEndhours ()
     {
         return endhours;
+    }
+
+    public String getLongName ()
+    {
+        return longName;
+    }
+
+    public void setLongName (String longName)
+    {
+        this.longName = longName;
+    }
+
+    public String getShortName ()
+    {
+        return shortName;
+    }
+
+    public void setShortName (String shortName)
+    {
+        this.shortName = shortName;
     }
 }
