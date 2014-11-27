@@ -7,7 +7,19 @@ package com.liquid.kochanparser;
  */
 public enum TimeTableType
 {
-	TIMETABLE_TYPE_CLASS,
-	TIMETABLE_TYPE_TEACHER,
-	TIMETABLE_TYPE_CLASSROOM
+	TIMETABLE_TYPE_CLASS ("class"),
+	TIMETABLE_TYPE_TEACHER ("teacher"),
+	TIMETABLE_TYPE_CLASSROOM ("classroom");
+
+    private String value;
+
+    TimeTableType (String value)
+    {
+        this.value = value;
+    }
+
+    public String getValue ()
+    {
+        return value;
+    }
 }
