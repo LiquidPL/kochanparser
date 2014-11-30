@@ -40,42 +40,46 @@ public class SaxHandler extends DefaultHandler
     @Override
     public void startElement (String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
-        currentName = qName;
-        if ("tr".equals (qName))
+        currentName = qName; // storing the name for use in other methods
+        if ("tr".equals (qName)) // increasing the lesson number as we traverse the timetable
         {
             currentLesson++;
             currentDay = -3;
         }
-        if ("td".equals (qName) || "th".equals (qName)) currentDay++;
-        if ("span".equals (qName) && currentGroup == -1)
+        if ("td".equals (qName) || "th".equals (qName)) currentDay++; // same with the day
+        if ("span".equals (qName) && currentGroup == -1) // set the appropriate group number when in group mode
         {
             currentGroup = 1;
         }
-        else if ("span".equals (qName) && currentGroup == 1)
+        else if ("span".equals (qName) && currentGroup == 1) // same as above
         {
             currentGroup = 2;
         }
-        if ("span".equals (qName) || "a".equals (qName))
-        {
-            int length = attributes.getLength ();
-            for (int i = 0; i < length; i++)
+        if ("span".equals (qName) || "a".equals (qName)) // if we hit elements that may contain timetable data,
+        {                                                // we check if this is the case and store the information
+            int length = attributes.getLength ();        // on what data may it be, so we can check it in
+            for (int i = 0; i < length; i++)             // characters () method
             {
                 String value = attributes.getValue (i);
+                // p - subject, n - teacher, s - classroom, o - class
+                // tytulnapis is a special case, it contains title of the timetable
                 if ("p".equals (value) || "n".equals (value) || "s".equals (value) || "o".equals (value) || "tytulnapis".equals (value))
                 {
                     currentAttribute = value;
                 }
-                if ("font-size:85%".equals (value))
+                if ("font-size:85%".equals (value)) // entering group mode, there will be two lessons within one hour here
                 {
                     currentGroup = -1;
                 }
             }
         }
+
+        // inserting lesson for the first group, they are separated by a <br/> tag
         if ("br".equals (qName) && currentGroup == 1 && currentDay >= 0 && currentDay <= 4 &&
                 !checkIfEmpty (currentSubject, currentTeacher, currentClassroom, currentClass))
         {
-            owner.getDay (currentDay).addLesson (currentSubject, currentTeacher, currentClassroom, currentClass);
-            owner.getDay (currentDay).getCurrentLesson ().setGroup (currentGroup);
+            owner.getLessons (). add (new Lesson(currentDay, currentLesson, currentSubject, currentTeacher, currentClassroom, currentClass));
+            owner.getCurrentLesson ().setGroup (currentGroup);
             currentSubject = ""; currentTeacher = ""; currentClassroom = ""; currentClass = "";
         }
     }
@@ -83,13 +87,14 @@ public class SaxHandler extends DefaultHandler
     @Override
     public void endElement (String uri, String localName, String qName) throws SAXException
     {
+        // inserting lesson for the second group, or if the lesson is not grouped
         if ("td".equals (qName) && currentDay >= 0 && currentDay <= 4 &&
             !checkIfEmpty (currentSubject, currentTeacher, currentClassroom, currentClass))
         {
-            owner.getDay (currentDay).addLesson (currentSubject, currentTeacher, currentClassroom, currentClass);
+            owner.getLessons ().add (new Lesson (currentDay, currentLesson, currentSubject, currentTeacher, currentClassroom, currentClass));
             if (currentGroup == 1 || currentGroup == 2)
             {
-                owner.getDay (currentDay).getCurrentLesson ().setGroup (currentGroup);
+                owner.getCurrentLesson ().setGroup (currentGroup);
             }
             currentGroup = 0;
             currentSubject = ""; currentTeacher = ""; currentClassroom = ""; currentClass = "";
@@ -101,6 +106,7 @@ public class SaxHandler extends DefaultHandler
     {
         String value = new String (ch, start, length).trim ();
         if (value.length () == 0) return;
+        // next for ifs: storing timetable data for later insertion depending on the attribute
         if ("p".equals (currentAttribute))
         {
             currentSubject = value;
@@ -117,20 +123,17 @@ public class SaxHandler extends DefaultHandler
         {
             currentClass = value;
         }
-        if ("th".equals (currentName) && currentDay >= 0)
-        {
-            owner.addDay (value);
-        }
-        if ("td".equals (currentName) && currentDay == -1)
+        if ("td".equals (currentName) && currentDay == -1) // storing the lessons begin and end hours
         {
             String[] values = new String (value.toCharArray (), 3, value.length () - 3).split ("-");
             owner.getStarthours ().add (new Time (values[0]));
             owner.getEndhours ().add (new Time (values[1]));
         }
-        if ("span".equals (currentName) && "-------".equals (value))
+        if ("span".equals (currentName) && "-------".equals (value)) // this means that only group 2 has a lesson at this hour
         {
             currentGroup = 2;
         }
+        // storing the timetable name, works different for class/teacher and classroom
         if ("span".equals (currentName) && "tytulnapis".equals (currentAttribute))
         {
             if (owner.getType () == TimeTableType.TIMETABLE_TYPE_CLASS || owner.getType () == TimeTableType.TIMETABLE_TYPE_TEACHER)
@@ -162,11 +165,4 @@ public class SaxHandler extends DefaultHandler
         else if (code.length () != 0 && _class.length () != 0 && name.length () != 0) return false;
         else return true;
     }
-
-    /**
-     * A getter for the TimeTable owner object
-     *
-     * @return The TimeTable object this handler was created in
-     */
-    public TimeTable getOwner () { return owner; }
 }

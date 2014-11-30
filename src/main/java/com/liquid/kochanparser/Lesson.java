@@ -5,7 +5,9 @@ package com.liquid.kochanparser;
  */
 public class Lesson 
 {
-	private String name = "";
+    private int day = -1;
+    private int lesson = -1;
+	private String subject = "";
 	private String teacherCode = "";
 	private String classroom = "";
 	private String _class = "";
@@ -14,22 +16,19 @@ public class Lesson
 	
 	public Lesson () {}
 	
-	public Lesson (String name, String code, String room, String _class) 
+	public Lesson (int day, int lesson, String subject, String code, String room, String _class)
 	{
-	    this.name = name;
+        this.day = day;
+        this.lesson = lesson;
+	    this.subject = subject;
 	    this.teacherCode = code;
 	    this.classroom = room;
 	    this._class = _class;
 	}
 
-	public String getName() 
+	public String getSubject ()
 	{
-		return name;
-	}
-
-	public void setName(String name) 
-	{
-		this.name = name;
+		return subject;
 	}
 
 	public String getTeacherCode() 
@@ -37,19 +36,9 @@ public class Lesson
 		return teacherCode;
 	}
 
-	public void setTeacherCode(String teacherCode) 
-	{
-		this.teacherCode = teacherCode;
-	}
-
 	public String getClassroom() 
 	{
 		return classroom;
-	}
-
-	public void setClassroom(String classroom) 
-	{
-		this.classroom = classroom;
 	}
 	
 	public int getGroup ()
@@ -67,8 +56,13 @@ public class Lesson
 		return _class;
 	}
 
-	public void setClass(String _class) 
-	{
-		this._class = _class;
-	}
+    public int getDay ()
+    {
+        return day;
+    }
+
+    public int getLesson ()
+    {
+        return lesson;
+    }
 }

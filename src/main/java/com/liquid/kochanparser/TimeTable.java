@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.liquid.kochanparser.SaxHandler;
-import com.liquid.kochanparser.Day;
 import com.liquid.kochanparser.TimeTableType;
 
 import javax.xml.parsers.SAXParser;
@@ -24,7 +23,7 @@ public class TimeTable
     private String longName = "";
     private String shortName = "";
 
-    private List<Day> days = new ArrayList<Day> ();
+    private List <Lesson> lessons = new ArrayList <Lesson> ();
 
     private List<Time> starthours = new ArrayList<Time> ();
     private List<Time> endhours = new ArrayList<Time> ();
@@ -59,34 +58,19 @@ public class TimeTable
         }
     }
 
-    public Day getDay (int number)
+    public List<Lesson> getLessons ()
     {
-        return days.get (number);
+        return lessons;
     }
 
-    public int getDayCount ()
+    public Lesson getCurrentLesson ()
     {
-        return days.size ();
-    }
-
-    public void addDay ()
-    {
-        this.days.add (new Day ());
-    }
-
-    public void addDay (String name)
-    {
-        this.days.add (new Day (name));
+        return lessons.get (lessons.size() - 1);
     }
 
     public TimeTableType getType ()
     {
         return type;
-    }
-
-    public void setType (TimeTableType type)
-    {
-        this.type = type;
     }
 
     public List<Time> getStarthours ()
