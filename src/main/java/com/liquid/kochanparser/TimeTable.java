@@ -38,6 +38,19 @@ public class TimeTable
             SAXParserFactory factory = SAXParserFactory.newInstance ();
             SAXParser parser = factory.newSAXParser ();
 
+            switch (xml.toString ().charAt (0))
+            {
+                case 'o':
+                    type = TimeTableType.TIMETABLE_TYPE_CLASS;
+                    break;
+                case 's':
+                    type = TimeTableType.TIMETABLE_TYPE_CLASSROOM;
+                    break;
+                case 'n':
+                    type = TimeTableType.TIMETABLE_TYPE_TEACHER;
+                    break;
+            }
+
             DefaultHandler handler = new SaxHandler (this);
             parser.parse (xml, handler);
         } catch (Exception e)

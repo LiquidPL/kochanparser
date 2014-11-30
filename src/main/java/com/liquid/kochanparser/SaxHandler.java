@@ -133,9 +133,17 @@ public class SaxHandler extends DefaultHandler
         }
         if ("span".equals (currentName) && "tytulnapis".equals (currentAttribute))
         {
-            String[] values = value.split (" \\(");
-            owner.setLongName (values[0]);
-            owner.setShortName (new String (values[1].toCharArray (), 0, values[1].length () - 1));
+            if (owner.getType () == TimeTableType.TIMETABLE_TYPE_CLASS || owner.getType () == TimeTableType.TIMETABLE_TYPE_TEACHER)
+            {
+                String[] values = value.split (" \\(");
+                owner.setLongName (values[0]);
+                owner.setShortName (new String (values[1].toCharArray (), 0, values[1].length () - 1));
+            }
+            else
+            {
+                owner.setShortName (new String (value.toCharArray (), 1, value.length () - 2));
+                owner.setLongName (owner.getShortName ());
+            }
         }
     }
 
