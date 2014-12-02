@@ -9,7 +9,8 @@ public enum TimeTableType
 {
 	TIMETABLE_TYPE_CLASS ("class"),
 	TIMETABLE_TYPE_TEACHER ("teacher"),
-	TIMETABLE_TYPE_CLASSROOM ("classroom");
+	TIMETABLE_TYPE_CLASSROOM ("classroom"),
+    TIMETABLE_TYPE_NONE ("none");
 
     private String value;
 
