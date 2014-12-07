@@ -147,6 +147,7 @@ public class SaxHandler extends DefaultHandler
                 owner.setShortName (new String (value.toCharArray (), 1, value.length () - 2));
                 owner.setLongName (owner.getShortName ());
             }
+            currentAttribute = "";
         }
     }
 
