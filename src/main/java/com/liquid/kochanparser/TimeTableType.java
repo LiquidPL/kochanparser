@@ -5,25 +5,6 @@ package com.liquid.kochanparser;
  * @author Krzysztof Gutkowski (LiquidPL)
  * @version dev
  */
-/*public enum TimeTableType
-{
-	CLASS ("class"),
-	TEACHER ("teacher"),
-	CLASSROOM ("classroom"),
-    NONE ("none");
-
-    private String value;
-
-    TimeTableType (String value)
-    {
-        this.value = value;
-    }
-
-    public String getValue ()
-    {
-        return value;
-    }
-}*/
 
 public class TimeTableType
 {
