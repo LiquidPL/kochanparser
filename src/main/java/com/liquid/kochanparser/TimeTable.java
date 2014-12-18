@@ -6,9 +6,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liquid.kochanparser.SaxHandler;
-import com.liquid.kochanparser.TimeTableType;
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -32,7 +29,7 @@ public class TimeTable
     private List<Time> starthours = new ArrayList<Time> ();
     private List<Time> endhours = new ArrayList<Time> ();
 
-    private TimeTableType type;
+    private int tableType;
 
     private SAXParserFactory factory;
 
@@ -46,7 +43,7 @@ public class TimeTable
         try
         {
             SAXParser parser = factory.newSAXParser ();
-            setType (xml.getName ());
+            setTableType (xml.getName ());
 
             DefaultHandler handler = new SaxHandler (this);
             parser.parse (xml, handler);
@@ -73,25 +70,25 @@ public class TimeTable
 
     }
 
-    public void setType (String name)
+    public void setTableType (String name)
     {
         switch (name.toString ().charAt (0))
         {
             case 'o':
-                type = TimeTableType.TIMETABLE_TYPE_CLASS;
+                tableType = TimeTableType.CLASS;
                 break;
             case 's':
-                type = TimeTableType.TIMETABLE_TYPE_CLASSROOM;
+                tableType = TimeTableType.CLASSROOM;
                 break;
             case 'n':
-                type = TimeTableType.TIMETABLE_TYPE_TEACHER;
+                tableType = TimeTableType.TEACHER;
                 break;
         }
     }
 
-    public void setType (TimeTableType type)
+    public void setType (int type)
     {
-        this.type = type;
+        this.tableType = type;
     }
 
     public List<Lesson> getLessons ()
@@ -104,9 +101,9 @@ public class TimeTable
         return lessons.get (lessons.size() - 1);
     }
 
-    public TimeTableType getType ()
+    public int getTableType ()
     {
-        return type;
+        return tableType;
     }
 
     public List<Time> getStarthours ()

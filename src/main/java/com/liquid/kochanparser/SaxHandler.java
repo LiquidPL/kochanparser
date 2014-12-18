@@ -136,7 +136,7 @@ public class SaxHandler extends DefaultHandler
         // storing the timetable name, works different for class/teacher and classroom
         if ("span".equals (currentName) && "tytulnapis".equals (currentAttribute))
         {
-            if (owner.getType () == TimeTableType.TIMETABLE_TYPE_CLASS || owner.getType () == TimeTableType.TIMETABLE_TYPE_TEACHER)
+            if (owner.getTableType () == TimeTableType.CLASS || owner.getTableType () == TimeTableType.TEACHER)
             {
                 String[] values = value.split (" \\(");
                 owner.setLongName (values[0]);
