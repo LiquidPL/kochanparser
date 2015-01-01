@@ -72,7 +72,7 @@ public class TimeTable
 
     public void setTableType (String name)
     {
-        switch (name.toString ().charAt (0))
+        switch (name.charAt (0))
         {
             case 'o':
                 tableType = TimeTableType.CLASS;
